@@ -6,6 +6,7 @@ import Variables from "@/config/Variables";
 import Response from "@/config/Response";
 import Exception from "@/config/Exception";
 import AuthRoute from "@/routes/AuthRoute";
+import UserRoute from "@/routes/UserRoute";
 
 class Route {
     public static registerRoutes(app: any): void {
@@ -16,6 +17,7 @@ class Route {
         this.wrapAllRoutes(app);
 
         app.use('/auth', AuthRoute.route());
+        app.use('/user', UserRoute.route());
 
         app.use('/image', express.static(join(process.cwd(), Variables.IMAGE_PATH)));
         app.use('/*', (req: Request, res: EResponse) => {

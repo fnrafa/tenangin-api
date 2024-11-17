@@ -32,7 +32,8 @@ model User {
   emailVerified DateTime?
   username      String    @unique
   password      String
-  character     String
+  character     String?
+  badge         String?
   verified      Boolean   @default(false)
   points        Int       @default(0)
   createdAt     DateTime  @default(now())

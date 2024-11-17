@@ -5,11 +5,11 @@ class AuthValidation extends Validator {
     public static register() {
         return this.validate(
             Joi.object({
-                name: this.text(),
-                username: this.text(4, 16),
-                email: this.email(),
-                password: this.password(),
-                repeat_password: this.repeat('password'),
+                name: this.text().required(),
+                username: this.text(4, 16).required(),
+                email: this.email().required(),
+                password: this.password().required(),
+                repeat_password: this.repeat('password').required(),
             })
         );
     }
@@ -17,8 +17,8 @@ class AuthValidation extends Validator {
     public static login() {
         return this.validate(
             Joi.object({
-                username: this.text(4, 16),
-                password: this.password(),
+                username: this.text(4, 16).required(),
+                password: this.password().required(),
             })
         );
     }

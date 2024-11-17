@@ -3,17 +3,6 @@ import {User} from "@prisma/client";
 import bcrypt from "bcrypt";
 
 class UserModel extends Model {
-    public static async getAllUser(): Promise<User[]> {
-        try {
-            return await this.prisma.user.findMany({
-                where: {deletedAt: null},
-            });
-        } catch (error) {
-            this.handleError(error);
-            return [];
-        }
-    }
-
     public static async authentication(id: string): Promise<User> {
         try {
             return await this.prisma.user.findFirstOrThrow({
@@ -34,7 +23,6 @@ class UserModel extends Model {
                     username,
                     password: hashedPassword,
                     name,
-                    character : "default",
                 },
             });
         } catch (error: any) {
@@ -46,6 +34,47 @@ class UserModel extends Model {
         }
     }
 
+    public static async editAccount(userId: string, data: {
+        name?: string;
+        username?: string;
+        email?: string;
+        password?: string;
+        character?: string;
+        badge?: string;
+    }): Promise<User> {
+        try {
+            return await this.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    ...data
+                },
+            });
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
+    }
+
+    public static async deleteAccount(userId: string): Promise<User> {
+        try {
+            const deletedTag = `deletedUser#${userId}`;
+            return await this.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    email: deletedTag,
+                    username: deletedTag,
+                    deletedAt: new Date(),
+                },
+            });
+        } catch (error) {
+            this.handleError(error);
+            throw error;
+        }
+    }
 
     public static async getUserByUsername(username: string): Promise<User> {
         try {
