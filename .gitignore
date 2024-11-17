@@ -1,0 +1,11 @@
+node_modules
+test/*
+!test/.gitkeep
+public/temp/*
+!public/temp/.gitkeep
+public/images/*
+!public/images/.gitkeep
+prisma/migrations
+.idea/
+.env
+id_rsa

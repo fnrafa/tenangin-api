@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum StoryState {
+  DRAFT
+  SHARED
+}
+
+enum PointAction {
+  UPLOAD_STORY
+  CREATE_DRAFT
+  SHARE_STORY
+  LIKE_STORY
+  COMMENT_STORY
+  LIKE_COMMENT
+  ACHIEVEMENT
+  MEDITATION
+  EXERCISE
+  SLEEP_PATTERN
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  username      String    @unique
+  password      String
+  character     String
+  verified      Boolean   @default(false)
+  points        Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  achievements    UserAchievement[]
+  stories         Story[]
+  storyLikes      StoryLike[]
+  comments        Comment[]
+  commentLikes    CommentLike[]
+  userMeditations UserMeditation[]
+  userExercises   UserExercise[]
+  sleepPatterns   SleepPattern[]
+  pointHistories  PointHistory[]
+}
+
+model Achievement {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  points      Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  users        UserAchievement[]
+  PointHistory PointHistory[]
+}
+
+model UserAchievement {
+  userId        String
+  achievementId String
+  achievedAt    DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+
+  @@id([userId, achievementId])
+}
+
+model Story {
+  id        String     @id @default(uuid())
+  text      String
+  state     StoryState @default(DRAFT)
+  anonymous Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+  sharedAt  DateTime?
+
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  images         StoryImage[]
+  likes          StoryLike[]
+  comments       Comment[]
+  pointHistories PointHistory[]
+}
+
+model StoryImage {
+  id        String   @id @default(uuid())
+  url       String
+  story     Story    @relation(fields: [storyId], references: [id])
+  storyId   String
+  createdAt DateTime @default(now())
+}
+
+model StoryLike {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  story   Story  @relation(fields: [storyId], references: [id])
+  storyId String
+
+  @@unique([userId, storyId])
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  text      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  story          Story          @relation(fields: [storyId], references: [id])
+  storyId        String
+  likes          CommentLike[]
+  pointHistories PointHistory[]
+}
+
+model CommentLike {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id])
+  commentId String
+
+  @@unique([userId, commentId])
+}
+
+model MeditationType {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  userMeditations UserMeditation[]
+}
+
+model UserMeditation {
+  id         String   @id @default(uuid())
+  date       DateTime
+  percentage Float
+
+  user             User           @relation(fields: [userId], references: [id])
+  userId           String
+  meditationType   MeditationType @relation(fields: [meditationTypeId], references: [id])
+  meditationTypeId String
+  pointHistories   PointHistory[]
+}
+
+model ExerciseType {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  userExercises UserExercise[]
+}
+
+model UserExercise {
+  id         String   @id @default(uuid())
+  date       DateTime
+  percentage Float
+
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  exerciseType   ExerciseType   @relation(fields: [exerciseTypeId], references: [id])
+  exerciseTypeId String
+  pointHistories PointHistory[]
+}
+
+model SleepPattern {
+  id      String   @id @default(uuid())
+  date    DateTime
+  hours   Float
+  quality Float
+
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  pointHistories PointHistory[]
+}
+
+model PointHistory {
+  id          String      @id @default(uuid())
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  action      PointAction
+  points      Int
+  description String?
+  createdAt   DateTime    @default(now())
+
+  story            Story?          @relation(fields: [storyId], references: [id])
+  storyId          String?
+  comment          Comment?        @relation(fields: [commentId], references: [id])
+  commentId        String?
+  achievement      Achievement?    @relation(fields: [achievementId], references: [id])
+  achievementId    String?
+  meditation       UserMeditation? @relation(fields: [userMeditationId], references: [id])
+  userMeditationId String?
+  exercise         UserExercise?   @relation(fields: [userExerciseId], references: [id])
+  userExerciseId   String?
+  sleep            SleepPattern?   @relation(fields: [sleepPatternId], references: [id])
+  sleepPatternId   String?
+}
