@@ -2,13 +2,20 @@ import Joi from 'joi';
 import Validator from "@/config/Validator";
 
 class UserValidation extends Validator {
+    public static updateProfilePicture() {
+        return this.validate(
+            Joi.object({
+                image: this.file().optional(),
+            })
+        );
+    }
+
     public static updateAccount() {
         return this.validate(
             Joi.object({
                 name: this.text().optional(),
                 username: this.text(4, 16).optional(),
                 email: this.email().optional(),
-                character: this.text().optional(),
                 badge: this.text().optional(),
                 password: this.password().required(),
                 new_password: this.password().optional(),

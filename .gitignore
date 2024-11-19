@@ -3,8 +3,8 @@ test/*
 !test/.gitkeep
 public/temp/*
 !public/temp/.gitkeep
-public/images/*
-!public/images/.gitkeep
+public/storage/*
+!public/storage/.gitkeep
 prisma/migrations
 .idea/
 .env

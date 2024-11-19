@@ -39,8 +39,8 @@ class UserModel extends Model {
         username?: string;
         email?: string;
         password?: string;
-        character?: string;
         badge?: string;
+        url?: string | null;
     }): Promise<User> {
         try {
             return await this.prisma.user.update({

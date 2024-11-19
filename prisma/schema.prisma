@@ -32,7 +32,7 @@ model User {
   emailVerified DateTime?
   username      String    @unique
   password      String
-  character     String?
+  url           String?
   badge         String?
   verified      Boolean   @default(false)
   points        Int       @default(0)
@@ -87,15 +87,16 @@ model Story {
 
   user           User           @relation(fields: [userId], references: [id])
   userId         String
-  images         StoryImage[]
+  medias         StoryMedia[]
   likes          StoryLike[]
   comments       Comment[]
   pointHistories PointHistory[]
 }
 
-model StoryImage {
+model StoryMedia {
   id        String   @id @default(uuid())
   url       String
+  alt       String
   story     Story    @relation(fields: [storyId], references: [id])
   storyId   String
   createdAt DateTime @default(now())

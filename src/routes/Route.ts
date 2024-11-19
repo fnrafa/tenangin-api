@@ -19,7 +19,7 @@ class Route {
         app.use('/auth', AuthRoute.route());
         app.use('/user', UserRoute.route());
 
-        app.use('/image', express.static(join(process.cwd(), Variables.IMAGE_PATH)));
+        app.use('/storage', express.static(join(process.cwd(), Variables.STORAGE_PATH)));
         app.use('/*', (req: Request, res: EResponse) => {
             Response.NotFound(res);
         });

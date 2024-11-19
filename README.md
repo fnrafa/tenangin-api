@@ -67,7 +67,6 @@
     - `name` (string): Nama baru pengguna.
     - `username` (string): Username baru pengguna.
     - `email` (string): Email baru pengguna.
-    - `character` (string): Karakter pengguna.
     - `badge` (string): Lencana baru pengguna.
     - `password` (string, required): Password lama pengguna untuk verifikasi.
     - `new_password` (string): Password baru pengguna.
@@ -82,17 +81,37 @@
 
 ---
 
-### 4. Delete Account
+### 4. Update Profile Picture
+
+**PUT** `/user`
+
+#### Input
+
+- **Headers**:
+  - `Authorization`: `Bearer <JWT_TOKEN>` (Ganti `<JWT_TOKEN>` dengan token autentikasi Anda).
+  - `Content-Type`: `multipart/form-data`
+- **Body**:
+  - `file` (file, optional): File gambar baru pengguna dengan format valid (.jpg, .jpeg, .png, .svg).
+
+#### Response
+
+- `200 OK`: Gambar profil berhasil diperbarui.
+- `415 Unsupported Media Type`: Format file tidak valid.
+- `422 Unprocessable Entity`: Input tidak sesuai.
+
+---
+
+### 5. Delete Account
 
 **DELETE** `/user`
 
 #### Input
 
 - **Headers**:
-    - `Content-Type`: `application/json`
-    - `Authorization`: `Bearer <JWT_TOKEN>`
+  - `Content-Type`: `application/json`
+  - `Authorization`: `Bearer <JWT_TOKEN>`
 - **Body**:
-    - `password` (string, required): Password pengguna untuk verifikasi penghapusan akun.
+  - `password` (string, required): Password pengguna untuk verifikasi penghapusan akun.
 
 #### Response
 

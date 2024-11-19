@@ -9,7 +9,7 @@ class Variables {
     static SECRET: string;
     static TIMEOUT: number;
     static TEMP_PATH: string;
-    static IMAGE_PATH: string;
+    static STORAGE_PATH: string;
     static ALLOWED_ORIGINS: string[];
     static ALLOWED_HEADERS: string;
     static ALLOWED_METHODS: string;
@@ -26,8 +26,8 @@ class Variables {
         this.SECRET = process.env.SECRET || this.throwError('SECRET');
 
         this.TIMEOUT = process.env.TIMEOUT ? parseInt(process.env.TIMEOUT) : 5000;
-        this.TEMP_PATH = process.env.TEMP_PATH || '/public';
-        this.IMAGE_PATH = process.env.IMAGE_PATH || '/public';
+        this.TEMP_PATH = process.env.TEMP_PATH || '/public/temp';
+        this.STORAGE_PATH = process.env.IMAGE_PATH || '/public/storage';
         this.ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
             ? process.env.ALLOWED_ORIGINS.split(',')
             : ['http://localhost:5000'];

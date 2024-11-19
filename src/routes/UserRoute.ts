@@ -7,6 +7,7 @@ class AuthRoute {
     private static router = Router();
 
     public static route(): Router {
+        this.router.put('/', auth.authorize(), UserValidation.updateProfilePicture(), UserController.updateProfilePicture);
         this.router.patch('/', auth.authorize(), UserValidation.updateAccount(), UserController.editAccount);
         this.router.delete('/', auth.authorize(), UserValidation.deleteAccount(), UserController.deleteAccount);
 
