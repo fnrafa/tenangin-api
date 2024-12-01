@@ -1,11 +1,11 @@
 {
-  "name": "belln-api-express",
+  "name": "tenangin-api-express",
   "version": "1.0.1",
   "private": true,
   "description": "restfull api, develop using node.js, express, prisma, and websocket",
   "main": "src/main.js",
   "author": "fnrafa",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "build": "tsc",

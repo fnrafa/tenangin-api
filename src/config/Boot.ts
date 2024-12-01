@@ -27,8 +27,8 @@ class Boot {
             this.initialize();
             resolve();
         }));
-        this.server.listen(Variables.PORT, async () => {
-            await AnimationConsole.static(`Server is running on port ${Variables.PORT}\n`);
+        this.server.listen(Variables.PORT, Variables.HOST, async () => {
+            await AnimationConsole.static(`Server is running on http://${Variables.HOST}:${Variables.PORT}\n`);
         });
     }
 

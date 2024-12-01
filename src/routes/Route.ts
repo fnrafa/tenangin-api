@@ -7,6 +7,7 @@ import Response from "@/config/Response";
 import Exception from "@/config/Exception";
 import AuthRoute from "@/routes/AuthRoute";
 import UserRoute from "@/routes/UserRoute";
+import ForumRoute from "@/routes/ForumRoute";
 
 class Route {
     public static registerRoutes(app: any): void {
@@ -18,6 +19,7 @@ class Route {
 
         app.use('/auth', AuthRoute.route());
         app.use('/user', UserRoute.route());
+        app.use('/forum', ForumRoute.route());
 
         app.use('/storage', express.static(join(process.cwd(), Variables.STORAGE_PATH)));
         app.use('/*', (req: Request, res: EResponse) => {

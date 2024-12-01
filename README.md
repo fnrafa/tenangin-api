@@ -88,7 +88,7 @@
 #### Input
 
 - **Headers**:
-  - `Authorization`: `Bearer <JWT_TOKEN>` (Ganti `<JWT_TOKEN>` dengan token autentikasi Anda).
+  - `Authorization`: `Bearer <JWT_TOKEN>`
   - `Content-Type`: `multipart/form-data`
 - **Body**:
   - `file` (file, optional): File gambar baru pengguna dengan format valid (.jpg, .jpeg, .png, .svg).

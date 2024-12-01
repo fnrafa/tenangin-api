@@ -9,7 +9,8 @@ class Auth {
         try {
             return jwt.verify(token, Variables.SECRET);
         } catch (error) {
-            return Response.Unauthorized(res, 'Invalid Token');
+            Response.Unauthorized(res, 'Invalid Token');
+            return;
         }
     }
 
@@ -42,6 +43,7 @@ class Auth {
                 next();
             } catch (error: any) {
                 Response.InternalServerError(res, error.message || 'An error occurred');
+                return;
             }
         };
     }
